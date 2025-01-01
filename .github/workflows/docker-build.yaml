@@ -30,3 +30,15 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+
+      # 推送完成后发送 Webhook
+      - name: Send Webhook Notification
+        run: |
+          curl -X POST ${{ vars.WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -d '{
+              "tag": "${{ github.ref_name }}",
+              "repository": "${{ secrets.DOCKER_USERNAME }}/${{ vars.DOCKER_REPOSITORY }}",
+              "status": "success",
+              "timestamp": "'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'"
+            }'
