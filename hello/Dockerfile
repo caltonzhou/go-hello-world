@@ -1,6 +1,12 @@
 # 使用官方 Go 镜像作为基础镜像
 FROM golang:1.23-alpine AS builder
 
+# Dockerfile 中定义 ARG
+ARG API_VERSION
+
+# 使用 ARG 变量
+ENV API_VERSION=${API_VERSION}
+
 # 设置工作目录
 WORKDIR /app
 
