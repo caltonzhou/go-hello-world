@@ -8,8 +8,17 @@ type Response {
 	Message string `json:"message"`
 }
 
+type ApiVersionRequest {}
+
+type ApiVersionResponse {
+	ApiVersion string `json:"api_version"`
+}
+
 service hello-api {
 	@handler HelloHandler
 	get /from/:name (Request) returns (Response)
+
+	@handler GetApiVersionHandler
+	get /get_api_version (ApiVersionRequest) returns (ApiVersionResponse)
 }
 
